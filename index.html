@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Venadito Hidalguense | Taller de Reparación de Armas</title>
+    
+    <!-- Iconos y Letra Tipo Militar -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link href="https://googleapis.com" rel="stylesheet">
+
+    <style>
+        :root {
+            --verde-neon: #00ff66; 
+            --verde-brillo-borde: rgba(0, 255, 102, 0.4);
+            --fondo-oscuro: #060907;
+            --tarjeta-fondo: #0d1410;
+            --texto-blanco: #ffffff;
+            --texto-gris: #a0bca7;
+            --fuente-titulos: 'Orbitron', sans-serif;
+            --fuente-texto: 'Rajdhani', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--fondo-oscuro);
+            color: var(--texto-blanco);
+            font-family: var(--fuente-texto);
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(0, 255, 102, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Menú de arriba fijo */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: #060907; border-bottom: 2px solid var(--verde-neon);
+            z-index: 1000; padding: 15px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo {
+            font-family: var(--fuente-titulos); font-weight: 900; font-size: 1.3rem;
+            color: var(--verde-neon); text-shadow: 0 0 10px var(--verde-neon);
+        }
+
+        .aviso-legal-nav {
+            font-size: 0.9rem; background: rgba(0, 255, 102, 0.1);
+            padding: 4px 10px; border: 1px solid var(--verde-neon); border-radius: 4px;
+        }
+
+        /* Título de la página */
+        .encabezado {
+            height: 35vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 20px; margin-top: 60px;
+        }
+
+        .encabezado h1 {
+            font-family: var(--fuente-titulos); font-size: 3rem; font-weight: 900;
+            text-transform: uppercase; text-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+        }
+
+        .encabezado p { color: var(--verde-neon); font-size: 1.2rem; margin-top: 10px; font-weight: bold; }
+
+        .contenido { max-width: 800px; margin: 0 auto; padding: 10px 20px; }
+
+        /* Cajas de contenido */
+        .caja-principal {
+            background: var(--tarjeta-fondo); border: 2px solid var(--verde-brillo-borde);
+            border-radius: 8px; padding: 30px; margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .caja-principal h2 {
+            font-family: var(--fuente-titulos); font-size: 1.5rem; margin-bottom: 20px;
+            color: var(--texto-blanco); border-bottom: 2px solid var(--verde-neon); padding-bottom: 10px;
+        }
+
+        .paso-formulario { margin-bottom: 20px; }
+        
+        .paso-numero {
+            font-family: var(--fuente-titulos); color: var(--verde-neon);
+            font-size: 1rem; display: block; margin-bottom: 5px; font-weight: bold;
+        }
+
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+
+        select, textarea {
+            width: 100%; padding: 14px; background: #000000;
+            border: 2px solid var(--verde-brillo-borde); color: #fff;
+            font-family: var(--fuente-texto); font-size: 1.2rem; border-radius: 6px;
+        }
+        select:focus, textarea:focus { border-color: var(--verde-neon); outline: none; }
+
+        /* Cuadro de resumen automático */
+        .cuadro-resumen {
+            background: rgba(0,0,0,0.5); border: 2px dashed var(--verde-neon);
+            padding: 20px; border-radius: 6px; margin-top: 25px;
+        }
+
+        .cuadro-resumen p { margin-bottom: 10px; font-size: 1.2rem; }
+        .cuadro-resumen strong { color: var(--verde-neon); }
+
+        /* BOTÓN DE ENVIAR */
+        .boton-whatsapp-enviar {
+            background: #25d366; color: #ffffff; border: none;
+            padding: 20px; font-family: var(--fuente-titulos); font-size: 1.1rem;
+            font-weight: 900; cursor: pointer; width: 100%; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            margin-top: 20px; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            transition: transform 0.2s;
+        }
+        .boton-whatsapp-enviar:hover { transform: scale(1.02); background: #20ba5a; }
+
+        /* Tarjetas de Información */
+        .info-tienda { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .tarjeta-info {
+            background: var(--tarjeta-fondo); padding: 20px; border-radius: 6px;
+            border-left: 5px solid var(--verde-neon); border-top: 1px solid var(--verde-brillo-borde);
+        }
+        .tarjeta-info h3 { font-family: var(--fuente-titulos); color: var(--verde-neon); margin-bottom: 10px; font-size: 1.2rem; }
+
+        /* Botón Verde Flotante */
+        .boton-flotante {
+            position: fixed; bottom: 30px; right: 30px; background: #25d366; color: #fff;
+            padding: 15px 25px; border-radius: 50px; display: flex;
+            justify-content: center; align-items: center; font-size: 1.1rem;
+            font-family: var(--fuente-titulos); font-weight: bold; text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 9999; gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .encabezado h1 { font-size: 2rem; }
+            nav { padding: 15px; }
+            .aviso-legal-nav { display: none; } 
+            .boton-flotante span { display: none; } 
+            .boton-flotante { bottom: 20px; right: 20px; padding: 15px; border-radius: 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><i class="fa-solid fa-gun"></i> EL VENADITO HIDALGUENSE</div>
+        <div class="aviso-legal-nav">🛡️ ARMAS DE FUEGO Y GAS</div>
+    </nav>
+
+    <header class="encabezado">
+        <h1>El Venadito Hidalguense</h1>
+        <p>Taller Tecnico Profesional • Pachuca Hidalgo</p>
+    </header>
+
+    <main class="contenido">
+
+        <section class="caja-principal">
+            <h2>Formulario de Contacto Directo</h2>
+            <p style="color: var(--texto-gris); margin-bottom: 25px; font-size: 1.1rem;">Por favor, llena los pasos de aquí abajo para armar un mensaje automático y enviarlo por WhatsApp para que te demos una cotizacion.</p>
+            
+            <!-- PASO 1 -->
+            <div class="paso-formulario">
+                <span class="paso-numero">PASO 1:</span>
+                <label for="tipoArma">¿Qué tipo de arma tienes?</label>
+                <select id="tipoArma" onchange="cambiarDatosFicha()">
+                    <option value="Arma de Fuego (Pistola / Escuadra)">Arma de Fuego: Pistola / Escuadra</option>
+                    <option value="Arma de Fuego (Revólver)">Arma de Fuego: Revólver de tambor</option>
+                    <option value="Arma de Fuego (Rifle / Escopeta)">Arma de Fuego: Rifle o Escopeta</option>
+                    <option value="Arma de Gas / CO2 (Pistola)">Arma de Gas / CO2: Pistola</option>
+                    <option value="Arma de Gas / Aire (Rifle)">Arma de Gas / Aire: Rifle o Carabina</option>
+                </select>
+            </div>
+
+            <!-- PASO 2 -->
+            <div class="paso-formulario">
+                <span class="paso-numero">PASO 2:</span>
+                <label for="tipoServicio">¿Qué trabajo necesitas que le hagamos?</label>
+                <select id="tipoServicio" onchange="cambiarDatosFicha()">
+                    <option value="Limpieza completa profunda y lubricación">Limpieza completa profunda y aceite</option>
+                    <option value="Reparar una falla mecánica, fuga de gas o pieza rota">Arreglar falla, fuga de gas o pieza rota</option>
+                    <option value="Restauración estética y pavonado completo">Dejarla como nueva y pavonado</option>
+                    <option value="Cambio de empaques, sellos o válvulas">Cambio de empaques, sellos o válvulas</option>
+                </select>
+            </div>
+
+            <!-- PASO 3 -->
+            <div class="paso-formulario">
+                <span class="paso-numero">PASO 3 (OPCIONAL):</span>
+                <label for="detallesFalla">Escribe aquí abajo si tiene alguna falla detallada:</label>
+                <textarea id="detallesFalla" rows="3" placeholder="Ejemplo: Se le sale el gas, se encasquilla seguido, le falta un resorte..." oninput="cambiarDatosFicha()"></textarea>
+            </div>
+
+            <!-- CUADRO DE RESUMEN AUTOMÁTICO -->
+            <div class="cuadro-resumen">
+                <p style="font-family: var(--fuente-titulos); font-size: 1rem; color: var(--verde-neon); margin-bottom: 15px;">📄 TU MENSAJE ESTÁ LISTO:</p>
+                <p>• Tipo de Arma: <strong id="resArma">Arma de Fuego: Pistola / Escuadra</strong></p>
+                <p>• Lo que necesita: <strong id="resServicio">Limpieza completa profunda y aceite</strong></p>
+                <p>• Nota extra: <strong id="resDetalles">Ninguna</strong></p>
+            </div>
+
+            <!-- BOTÓN DE ENVÍO -->
+            <button class="boton-whatsapp-enviar" onclick="mandarMensajeWhatsApp()">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.6rem;"></i> 
+                DAR CLIC AQUÍ PARA ENVIAR POR WHATSAPP
+            </button>
+        </section>
+
+        <!-- INFORMACIÓN DE LA TIENDA -->
+        <section class="info-tienda">
+            <div class="tarjeta-info">
+                <h3>📍 UBICACIÓN DEL TALLER</h3>
+                <p><strong>Ciudad:</strong> Pachuca, Hidalgo.</p>
+                <p><strong>Dirección:</strong> Avenida Pirules, No. # (100), Pachuca de Soto.</p>
+                <p style="color: var(--verde-neon); font-weight: bold; margin-top: 8px;">
+                    <i class="fa-solid fa-location-dot"></i> Referencia Táctica: Junto a la barda perimetral de la Zona Militar.
+                </p>
+            </div>
+            
+            <div class="tarjeta-info">
+                <h3>🕒 HORARIOS DE ATENCIÓN</h3>
+                <p><strong>Lunes a Sábado:</strong> 9:00 AM a 5:00 PM (Horario corrido).</p>
+                <p><strong>Domingos:</strong> Cerrado por completo.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Botón flotante -->
+    <a href="#" class="boton-flotante" onclick="mandarMensajeWhatsApp(); return false;">
+        <i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i>
+        <span>Preguntar por WhatsApp</span>
+    </a>
+
+    <!-- PROGRAMACIÓN CORE LIMPIA Y ROBUSTA -->
+    <script>
+        function cambiarDatosFicha() {
+            var armaSeleccionada = document.getElementById('tipoArma').value;
+            var servicioSeleccionado = document.getElementById('tipoServicio').value;
+            var textoDetalles = document.getElementById('detallesFalla').value.trim();
+
+            if (textoDetalles === "") {
+                textoDetalles = "Ninguna";
+            }
+
+            document.getElementById('resArma').innerText = armaSeleccionada;
+            document.getElementById('resServicio').innerText = servicioSeleccionado;
+            document.getElementById('resDetalles').innerText = textoDetalles;
+        }
+
+        function mandarMensajeWhatsApp() {
+            var arma = document.getElementById('resArma').innerText;
+            var servicio = document.getElementById('resServicio').innerText;
+            var detalles = document.getElementById('resDetalles').innerText;
+
+            // Armamos el texto limpio para enviar
+            var textoLimpio = "Hola El Venadito Hidalguense, vi su página web y quiero una cotización:\n\n" +
+                              "• Tipo de arma: " + arma + "\n" +
+                              "• Servicio requerido: " + servicio + "\n" +
+                              "• Falla o detalles: " + detalles + "\n\n" +
+                              "¿Me podría dar un costo aproximado y decirme qué documentos debo llevar?";
+
+            var mensajeCodificado = encodeURIComponent(textoLimpio);
+            
+            // Dirección URL 100% limpia sin variables raras dentro de llaves
+            var urlDefinitiva = "https://wa.me" + mensajeCodificado;
+
+            // Ejecuta la redirección nativa limpia hacia WhatsApp
+            window.open(urlDefinitiva, '_blank');
+        }
+    </script>
+</body>
+</html>
